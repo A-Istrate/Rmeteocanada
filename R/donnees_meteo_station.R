@@ -51,17 +51,22 @@ donnees_meteo_station = function(stationid=30165,year=2020, returndf=FALSE, save
   names(donnees_meteo) <- gsub(x = names(donnees_meteo), pattern = "à", replacement = "a")
   names(donnees_meteo) <- gsub(x = names(donnees_meteo), pattern = "_$", replacement = "")
 
-  #Afin de pouvoir utiliser les donnée on transformes certaines colonnes en numérique
-  #besoin de transformer les virgules en points pour la conversion
-  conversion_en_numerique =function(x){
-    as.numeric(gsub(",", ".",x))
-  }
 
   #sapply sur les colonnes nécessitant une conversion
   donnees_meteo[,c(10,11,15)] <- sapply(donnees_meteo[,c(10,11,15)], conversion_en_numerique  )
 
   #On transforme la date_heure en POSIXct
-  donnees_meteo$Date_Heure <- as.POSIXct(donnees_meteo$Date_Heure,tz = "" )
+  donnees_meteo$Date_Heure <-as.POSIXct(donnees_meteo$Date_Heure,tz = "", format="%Y-%m-%d %H:%M")
+  #quelques NA on corrige à partir des colonnes annee mois heure
+  missing_dates <- donnees_meteo[is.na(donnees_meteo$Date_Heure),]
+  newdate<-paste0(missing_dates[,6],"-",missing_dates[,7],"-",missing_dates[,8]," ",missing_dates[,9])
+  donnees_meteo[is.na(donnees_meteo$Date_Heure),5] <-as.POSIXct(newdate,tz = "")
+
+  #Afin de pouvoir utiliser les donnée on transformes certaines colonnes en numérique
+  #besoin de transformer les virgules en points pour la conversion
+  conversion_en_numerique =function(x){
+    as.numeric(gsub(",", ".",x))
+  }
 
   #Si indiqué on sauvegarde une copie du data frame nettoyé en fichier csv
   if(savecsv){

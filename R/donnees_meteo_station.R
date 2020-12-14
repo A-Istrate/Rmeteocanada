@@ -52,11 +52,9 @@ donnees_meteo_station = function(stationid=30165,year=2020, returndf=FALSE, save
   names(donnees_meteo) <- gsub(x = names(donnees_meteo), pattern = "_$", replacement = "")
 
 
-  #sapply sur les colonnes nécessitant une conversion
-  donnees_meteo[,c(10,11,15)] <- sapply(donnees_meteo[,c(10,11,15)], conversion_en_numerique  )
-
   #On transforme la date_heure en POSIXct
   donnees_meteo$Date_Heure <-as.POSIXct(donnees_meteo$Date_Heure,tz = "", format="%Y-%m-%d %H:%M")
+
   #quelques NA on corrige à partir des colonnes annee mois heure
   missing_dates <- donnees_meteo[is.na(donnees_meteo$Date_Heure),]
   newdate<-paste0(missing_dates[,6],"-",missing_dates[,7],"-",missing_dates[,8]," ",missing_dates[,9])
@@ -67,10 +65,14 @@ donnees_meteo_station = function(stationid=30165,year=2020, returndf=FALSE, save
   conversion_en_numerique =function(x){
     as.numeric(gsub(",", ".",x))
   }
+  #sapply sur les colonnes nécessitant une conversion
+  donnees_meteo[,c(10,11,15)] <- sapply(donnees_meteo[,c(10,11,15)], conversion_en_numerique  )
 
   #Si indiqué on sauvegarde une copie du data frame nettoyé en fichier csv
   if(savecsv){
-    write.csv(donnees_meteo,paste0("./",dir_sa,"/",dir_sa,".csv"))
+    dm <-donnees_meteo
+    dm$Date_Heure <- as.character(dm$Date_Heure)
+    write.csv(dm,paste0("./",dir_sa,"/",dir_sa,".csv"),na="",quote = TRUE)
   }
 
   #on retourne le data frame selon l'option choisie

@@ -1,0 +1,47 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# Rmeteocanada
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+The goal of Rmeteocanada is to download météo data from a Environnement Canada station  and provide graphs analyzing it
+
+## Installation
+
+You can install the released version of Rmeteocanada from [CRAN](https://CRAN.R-project.org) with:
+
+``` r
+install.packages("Rmeteocanada")
+```
+
+And the development version from [GitHub](https://github.com/) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("A-Istrate/Rmeteocanada")
+```
+## Example
+
+This is a basic example which shows you how to solve a common problem:
+
+```{r example}
+library(Rmeteocanada)
+## basic example code
+#Nous allons tester nos fonctions en une ligne qui devrait récupérer les données  pour la station 114 depuis le serveur et générer le graphique des temperatures pour le mois de juillet
+graphique_meteo(donnees_meteo_station(114),7,"t")
+```
+

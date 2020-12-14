@@ -1,18 +1,19 @@
-#' Récupérer et formater les données d'une station météo d’Environnement Canada
+#' Recuperer et formater les donnees d'une station meteo d'Environnement Canada
 #'
-#' La fonction va aller chercher les données sur le serveur d’Environnement Canada, concaténer les 12 fichiers mensuels,
-#' formater et nettoyer les données. Puis finalement soit enregistrer directement un data frame dans l’environnement
-#' global soit retourner un data frame pour être travaillé par l’utilisateur en aval.
-#' @stationid : permet à l’utilisateur de préciser quelle station météo il souhaite consulter. Liste complète (fichier csv officiel d’Environnement et Changement climatique Canada ) : https://drive.google.com/file/d/1MnCvrLiCz_V8y8gCYMX_Mucerupp5UsF/view?usp=sharing
-#' Par défaut va chercher les données liées à la station de l’aéroport de Montréal (30165).
-#'	@year : permet de choisir l’année de téléchargement, 2020 par défaut
-#' @returndf : précise si la fonction enregistre le data frame contenant les données dans l’environnement global (par défaut) ou s’il retourne un data frame avec retrun().
-#'	@savecsv : permet d’enregistrer les données récupérés, nettoyées et compilées dans un csv en local.  False par défaut.
-#'	@force_download : pour éviter de surcharger les serveurs d’Environnement Canada, la fonction ne télécharge les données que si elles n’existent pas déjà dans le répertoire local, possibilité de forcer le téléchargement, pour mettre à jour par exemple.
+#' La fonction va aller chercher les donnees sur le serveur d'Environnement Canada, concatener les 12 fichiers mensuels,
+#' formater et nettoyer les donnees. Puis finalement soit enregistrer directement un data frame dans l'environnement
+#' global soit retourner un data frame pour etre travaille par l'utilisateur en aval.
+#' @param stationid : permet a l'utilisateur de preciser quelle station meteo il souhaite consulter. Liste complete (fichier csv officiel d'Environnement et Changement climatique Canada ) : https://drive.google.com/file/d/1MnCvrLiCz_V8y8gCYMX_Mucerupp5UsF/view?usp=sharing
+#' Par defaut va chercher les donnees liees a la station de l'aeroport de Montreal (30165).
+#'	@param year : permet de choisir l'annee de telechargement, 2020 par defaut
+#' @param returndf : precise si la fonction enregistre le data frame contenant les donnees dans l'environnement global (par defaut) ou s'il retourne un data frame avec retrun().
+#'	@param savecsv : permet d'enregistrer les donnees recuperes, nettoyees et compilees dans un csv en local.  False par defaut.
+#'	@param force_download : pour eviter de surcharger les serveurs d'Environnement Canada, la fonction ne telecharge les donnees que si elles n'existent pas deja dans le repertoire local, possibilite de forcer le telechargement, pour mettre a jour par exemple.
 #'	@examples
 #'	donnees_meteo_station()
 #'	donnees_meteo_station(stationid=27226,year=2019,savecsv=TRUE)
 
+#' @export
 donnees_meteo_station = function(stationid=30165,year=2020, returndf=FALSE, savecsv=FALSE, force_download=FALSE){
 
   #on créé le dossier pour les téléchargements si celui-ci n'existe pas
